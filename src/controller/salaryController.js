@@ -70,17 +70,23 @@ const salaryController = {
       res.status(200).json({ message: "Salary calculation successful" });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Error calculating salary", error: error.message });
+      res
+        .status(500)
+        .json({ message: "Error calculating salary", error: error.message });
     }
   },
 
   getSalaryByUserID: async (req, res) => {
     try {
       const { userID } = req.params;
+      const { month, year } = req.query;
 
-      // Find all Salary records for the given userID
+      const whereCondition = { userID };
+      if (month) whereCondition.Month = month;
+      if (year) whereCondition.Year = year;
+
       const salaryRecords = await db.Salary.findAll({
-        where: { userID },
+        where: whereCondition,
       });
 
       res.status(200).json({ message: "Success", salaryRecords });
