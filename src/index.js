@@ -5,7 +5,7 @@ const { join } = require("path");
 
 const PORT = process.env.PORT || 8000;
 const app = express();
-const db = require("../models");
+const db = require("./models");
 // db.sequelize.sync({ alter: true });
 
 app.use(
@@ -21,10 +21,10 @@ app.use(
 app.use(express.json());
 
 //#region API ROUTES
-const { authRouter, attendanceRouter, salaryRouter } = require("./routers");
+const { authRouter, employeeRouter, attendanceRouter, salaryRouter } = require("./routers");
 // ===========================
 // NOTE : Add your routes here
-app.use("/api", authRouter, attendanceRouter, salaryRouter);
+app.use("/api", authRouter, employeeRouter, attendanceRouter, salaryRouter);
 
 app.get("/api", (req, res) => {
   res.send(`Hello, this is my API`);
