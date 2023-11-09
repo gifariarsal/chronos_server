@@ -8,7 +8,12 @@ const authController = {
     try {
       const { email, password } = req.body;
       const userCheck = await User.findOne({ where: { email } });
-      if (!userCheck) return res.status(500).json({ message: "User not Found" });
+      if (!userCheck) return res.status(500).json({ message: "User not found" });
+
+      if (!userCheck.fullName) {
+        return res.status(400).json({ message: "Please complete your data" });
+      }
+
       const passwordValid = await bcrypt.compare(password, userCheck.password);
       if (!passwordValid)
         return res.status(400).json({ message: "Incorrect password" });
