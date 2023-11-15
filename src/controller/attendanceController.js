@@ -88,14 +88,17 @@ const attendanceController = {
       history.HourlyWorks = hoursWorked;
 
       if (hoursWorked > 8) {
-        history.DaySalary = user.daySalary / 2;
-        history.Deduction = user.daySalary / 2;
+        history.DaySalary = user.daySalary * 0.75;
+        history.Deduction = user.daySalary * 0.25;
       } else if (!history.ClockIn) {
         history.DaySalary = 0;
         history.Deduction = user.daySalary;
       } else if (hoursWorked <= 7) {
         history.DaySalary = user.daySalary / 2;
         history.Deduction = user.daySalary / 2;
+      } else {
+        history.DaySalary = user.daySalary;
+        history.Deduction = 0;
       }
 
       await history.save();
